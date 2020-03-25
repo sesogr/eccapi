@@ -25,7 +25,7 @@ class FakeCustomerHandler extends FakeDataHandler
             'kundeID' => $gen->optional()->randomNumber(8),
             'parentAccount' => $recursive ? null : $gen->optional()->passthrough($this->load($gen->randomNumber(8), true)),
             'childAccounts' => $gen->optional(.2)->passthrough($recursive ? null : $this->list($gen->word, true)) ?: [],
-            'consumers' => [],
+            'consumers' => $gen->optional()->passthrough((new FakeConsumerHandler($this->generator))->list($gen->word)) ?: [],
             'addresses' => array_map(
                 function () use ($gen) {
                     return [
