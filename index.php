@@ -26,7 +26,7 @@ try {
     /** @var TypeHandler $handler */
     $handler = $container->get($typeHandlers[$_GET[PARAM_TYPE]]);
     $result = isset($_GET[PARAM_ID])
-        ? $handler->format($handler->load($_GET[PARAM_ID]))
+        ? $handler->format($handler->load(intval($_GET[PARAM_ID])))
         : array_map([$handler, 'format'], $handler->list($_GET[PARAM_SEARCH] ?? null));
     header("Content-Type: application/json; charset=UTF-8");
     echo json_encode($result, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
