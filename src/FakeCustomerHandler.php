@@ -22,10 +22,12 @@ class FakeCustomerHandler extends FakeDataHandler
             'kundeNummer' => $gen->ean13,
             'aktiv' => $gen->boolean,
             'verantwortlicherID' => $gen->randomNumber(8),
+            'rechnungsanschriftVerwenden' => $gen->boolean,
+            'createdOn' => $this->generator->date(DATE_ATOM),
             'kundeID' => $gen->optional()->randomNumber(8),
             'parentAccount' => $recursive ? null : $gen->optional()->passthrough($this->load($gen->randomNumber(8), true)),
             'childAccounts' => $gen->optional(.2)->passthrough($recursive ? null : $this->list($gen->word, true)) ?: [],
-            'consumers' => $gen->optional()->passthrough((new FakeConsumerHandler($this->generator))->list($gen->word)) ?: [],
+            'consumer' => $gen->optional()->passthrough((new FakeConsumerHandler($this->generator))->list($gen->word)) ?: [],
             'addresses' => array_map(
                 function () use ($gen) {
                     return [
