@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 use Faker\Factory;
 use Faker\Generator;
-use SuiteCrmCalcApi\EvuHandler;
+use SuiteCrmCalcApi\FakeEvuHandler;
 use function DI\factory;
 
 return [
@@ -9,6 +9,6 @@ return [
         return Factory::create('de_DE');
     }),
     'typeHandlers' => [
-        'evu' => EvuHandler::class,
+        'evu' => FakeEvuHandler::class,
     ],
 ];
