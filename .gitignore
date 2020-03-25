@@ -1,3 +1,2 @@
-.idea
-htdocs/CrmKalk/credentials.php
-htdocs/CrmKalk/vendor/
+credentials.php
+vendor/
