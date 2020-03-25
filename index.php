@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 use DI\ContainerBuilder;
+use Intervention\HttpAuth\Exception\AuthentificationException;
 use SuiteCrmCalcApi\TypeHandler;
 const ERROR_MISSING = 'Missing type parameter';
 const ERROR_UNSUPPORTED = 'Unsupported type %s. Must be one of: %s';
@@ -29,6 +30,9 @@ try {
         : array_map([$handler, 'format'], $handler->list($_GET[PARAM_SEARCH] ?? null));
     header("Content-Type: application/json; charset=UTF-8");
     echo json_encode($result, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+} catch (AuthentificationException $e) {
+    header("Content-Type: text/plain; charset=UTF-8", true);
+    echo $e->getMessage();
 } catch (Throwable $t) {
     header("Content-Type: text/plain; charset=UTF-8", true, 500);
     echo $t;

@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 use Intervention\HttpAuth\Environment;
-use Intervention\HttpAuth\HttpAuth;
+use Intervention\HttpAuth\Exception\AuthentificationException;
+use Intervention\HttpAuth\Vault\DigestVault;
 
 return (function () {
     $incomingUser = (new Environment())->getToken()->toKey()->getUsername();
@@ -13,7 +14,14 @@ return (function () {
         }
     }
     if ($username) {
-        $auth = HttpAuth::make()->digest()->realm('Secure')->username($username)->password($password);
+        $realm = basename(__DIR__);
+        $auth = new class ($realm, $username, $password) extends DigestVault {
+            protected function denyAccess(): void
+            {
+                header('WWW-Authenticate: ' . (string)$this->getDirective(), true, 401);
+                throw new AuthentificationException('401 Unauthorized for ' . $this->realm);
+            }
+        };
         $auth->secure();
     }
     return [$clientId, $secret];
