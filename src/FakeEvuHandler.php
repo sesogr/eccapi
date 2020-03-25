@@ -16,7 +16,7 @@ class FakeEvuHandler extends FakeDataHandler
                     : $item['kommentar'];
                 return $item;
             },
-            range(0, $this->generator->biasedNumberBetween(2, 100))
+            range(0, $this->generator->biasedNumberBetween(2, 20))
         );
     }
 
