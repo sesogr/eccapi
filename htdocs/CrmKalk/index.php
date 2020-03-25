@@ -3,6 +3,7 @@ use DI\ContainerBuilder;
 use SuiteCrmCalcApi\TypeHandler;
 const ERROR_MISSING = 'Missing type parameter';
 const ERROR_UNSUPPORTED = 'Unsupported type %s. Must be one of: %s';
+const FILE_AUTH = __DIR__ . '/digest-auth.php';
 const FILE_SETUP = __DIR__ . '/container-setup.php';
 const PARAM_ID = 'id';
 const PARAM_SEARCH = 'searchQuery';
@@ -10,6 +11,7 @@ const PARAM_TYPE = 'type';
 const SLOT_HANDLERS = 'typeHandlers';
 require_once __DIR__ . '/vendor/autoload.php';
 try {
+    [$clientId, $secret] = include FILE_AUTH;
     if (!isset($_GET[PARAM_TYPE])) {
         throw new UnexpectedValueException(ERROR_MISSING);
     }
