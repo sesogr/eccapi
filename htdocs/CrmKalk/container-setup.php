@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 use Faker\Factory;
 use Faker\Generator;
+use SuiteCrmCalcApi\FakeCustomerHandler;
 use SuiteCrmCalcApi\FakeEvuHandler;
 use function DI\factory;
 
@@ -9,6 +10,7 @@ return [
         return Factory::create('de_DE');
     }),
     'typeHandlers' => [
+        'customer' => FakeCustomerHandler::class,
         'evu' => FakeEvuHandler::class,
     ],
 ];
