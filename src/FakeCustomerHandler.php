@@ -7,13 +7,13 @@ class FakeCustomerHandler extends FakeDataHandler
     {
         return array_map(
             function () use ($search, $recursive) {
-                return $this->load($this->generator->ean8, $recursive);
+                return $this->load($this->generator->randomNumber(8), $recursive);
             },
             range(0, $this->generator->biasedNumberBetween(2, $recursive ? 5 : 20))
         );
     }
 
-    public function load(string $id, bool $recursive = false)
+    public function load(int $id, bool $recursive = false)
     {
         $gen = $this->generator;
         return [
@@ -21,15 +21,15 @@ class FakeCustomerHandler extends FakeDataHandler
             'kundeName' => $gen->company . ($gen->boolean ? ', ' . $gen->city : ''),
             'kundeNummer' => $gen->ean13,
             'aktiv' => $gen->boolean,
-            'verantwortlicherID' => $gen->ean8,
-            'kundeID' => $gen->optional()->ean8,
-            'parentAccount' => $recursive ? null : $gen->optional()->passthrough($this->load($gen->ean8, true)),
-            'childAccounts' => $recursive ? [] : $gen->optional()->passthrough($this->list($gen->word, true)),
+            'verantwortlicherID' => $gen->randomNumber(8),
+            'kundeID' => $gen->optional()->randomNumber(8),
+            'parentAccount' => $recursive ? null : $gen->optional()->passthrough($this->load($gen->randomNumber(8), true)),
+            'childAccounts' => $gen->optional(.2)->passthrough($recursive ? null : $this->list($gen->word, true)) ?: [],
             'consumers' => [],
             'addresses' => array_map(
                 function () use ($gen) {
                     return [
-                        'id' => $gen->ean8,
+                        'id' => $gen->randomNumber(8),
                         'street' => $gen->optional(.8)->streetAddress,
                         'zipCode' => $gen->optional(.8)->postcode,
                         'city' => $gen->optional(.8)->city,

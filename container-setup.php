@@ -3,6 +3,7 @@ use Faker\Factory;
 use Faker\Generator;
 use SuiteCrmCalcApi\FakeCustomerHandler;
 use SuiteCrmCalcApi\FakeEvuHandler;
+use SuiteCrmCalcApi\FakeGridProviderHandler;
 use function DI\factory;
 
 return [
@@ -12,5 +13,6 @@ return [
     'typeHandlers' => [
         'customer' => FakeCustomerHandler::class,
         'evu' => FakeEvuHandler::class,
+        'gridProvider' => FakeGridProviderHandler::class,
     ],
 ];
