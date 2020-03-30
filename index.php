@@ -15,21 +15,24 @@ const SLOT_HANDLERS = 'typeHandlers';
 require_once __DIR__ . '/vendor/autoload.php';
 try {
     [$clientId, $secret] = include FILE_AUTH;
-    if (!isset($_GET[PARAM_TYPE])) {
+    $type = $_GET[PARAM_TYPE] ?? null;
+    $listMethod = 'list';
+    $listArgument = $_GET[PARAM_SEARCH] ?? null;
+    if (!isset($type)) {
         throw new UnexpectedValueException(ERROR_MISSING);
     }
     $container = (new ContainerBuilder())->addDefinitions(FILE_SETUP)->build();
     $typeHandlers = $container->get(SLOT_HANDLERS);
-    if (!isset($typeHandlers[$_GET[PARAM_TYPE]])) {
+    if (!isset($typeHandlers[$type])) {
         throw new UnexpectedValueException(
-            sprintf(ERROR_UNSUPPORTED, $_GET[PARAM_TYPE], implode(', ', array_keys($typeHandlers)))
+            sprintf(ERROR_UNSUPPORTED, $type, implode(', ', array_keys($typeHandlers)))
         );
     }
     /** @var TypeHandler $handler */
-    $handler = $container->get($typeHandlers[$_GET[PARAM_TYPE]]);
+    $handler = $container->get($typeHandlers[$type]);
     $result = isset($_GET[PARAM_ID])
         ? $handler->format($handler->load(intval($_GET[PARAM_ID])))
-        : array_map([$handler, 'format'], $handler->list($_GET[PARAM_SEARCH] ?? null));
+        : array_map([$handler, 'format'], $handler->$listMethod($listArgument));
     header("Content-Type: application/json; charset=UTF-8");
     echo json_encode($result, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 } catch (AuthentificationException $e) {
