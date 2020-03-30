@@ -15,16 +15,26 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
 
     public function listChildren(string $parentId): array
     {
-        return $this->generator->optional()->passthrough(
-            (new FakeCustomerHandler($this->generator))->list($this->generator->word)
-        ) ?: [];
+        return array_map(
+            function ($item) use ($parentId) {
+                return ['kundeID' => $parentId] + $item;
+            },
+            $this->generator->optional()->passthrough(
+                (new FakeCustomerHandler($this->generator))->list($this->generator->word)
+            ) ?: []
+        );
     }
 
     public function listConsumers(string $ownerId): array
     {
-        return $this->generator->optional()->passthrough(
-            (new FakeConsumerHandler($this->generator))->list($this->generator->word)
-        ) ?: [];
+        return array_map(
+            function ($item) use ($ownerId) {
+                return ['kundeID' => $ownerId] + $item;
+            },
+            $this->generator->optional()->passthrough(
+                (new FakeConsumerHandler($this->generator))->list($this->generator->word)
+            ) ?: []
+        );
     }
 
     public function load(int $id)
