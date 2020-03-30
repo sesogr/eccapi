@@ -38,7 +38,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
             'rechnungsanschriftVerwenden' => $gen->boolean,
             'createdOn' => $this->generator->date(DATE_ATOM),
             'kundeID' => $gen->optional()->randomNumber(8),
-            'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list($gen->word)) ?: [],
+            'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list(null)) ?: [],
         ];
     }
 }

@@ -18,7 +18,15 @@ try {
     $type = $_GET[PARAM_TYPE] ?? null;
     $listMethod = 'list';
     $listArgument = $_GET[PARAM_SEARCH] ?? null;
-    if (!isset($type)) {
+    if (isset($_GET[PARAM_CHILDREN])) {
+        $type = PARAM_CHILDREN;
+        $listMethod = 'listChildren';
+        $listArgument = $_GET[PARAM_CHILDREN];
+    } elseif (isset($_GET[PARAM_CONSUMERS])) {
+        $type = PARAM_CONSUMERS;
+        $listMethod = 'listConsumers';
+        $listArgument = $_GET[PARAM_CONSUMERS];
+    } elseif (!isset($type)) {
         throw new UnexpectedValueException(ERROR_MISSING);
     }
     $container = (new ContainerBuilder())->addDefinitions(FILE_SETUP)->build();

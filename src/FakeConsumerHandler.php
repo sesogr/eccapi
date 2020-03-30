@@ -33,7 +33,7 @@ class FakeConsumerHandler extends FakeDataHandler
             'bemerkungen' => $this->generator->words($this->generator->numberBetween(3, 10), true),
             'kostenstelle' => $this->generator->optional()->word,
             'kundeID' => $gen->randomNumber(8),
-            'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list($gen->word)) ?: [],
+            'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list(null)) ?: [],
         ];
     }
 }
