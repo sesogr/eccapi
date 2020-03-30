@@ -3,7 +3,7 @@ namespace SuiteCrmCalcApi;
 
 class FakeAddressHandler extends FakeDataHandler
 {
-    public function list(?string $search, bool $recursive = false): array
+    public function list(?string $search): array
     {
         return array_map(
             function () use ($search) {
@@ -20,12 +20,12 @@ class FakeAddressHandler extends FakeDataHandler
         );
     }
 
-    public function load(int $id, bool $recursive = false)
+    public function load(int $id)
     {
         return [
             'id' => $id,
             'line1' => $this->generator->streetAddress,
-            'line2' => $this->generator->optional(.1)->secondaryAddress,
+            'line2' => $this->generator->optional(.1)->jobTitle,
             'line3' => null,
             'postalCode' => $this->generator->optional(.8)->postcode,
             'city' => $this->generator->optional(.8)->city,

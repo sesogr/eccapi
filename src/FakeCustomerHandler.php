@@ -3,13 +3,13 @@ namespace SuiteCrmCalcApi;
 
 class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
 {
-    public function list(?string $search, bool $recursive = false): array
+    public function list(?string $search): array
     {
         return array_map(
-            function () use ($search, $recursive) {
-                return $this->load($this->generator->randomNumber(8), $recursive);
+            function () use ($search) {
+                return $this->load($this->generator->randomNumber(8));
             },
-            range(0, $this->generator->biasedNumberBetween(2, $recursive ? 5 : 20))
+            range(0, $this->generator->biasedNumberBetween(2, 20))
         );
     }
 
@@ -27,7 +27,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
         ) ?: [];
     }
 
-    public function load(int $id, bool $recursive = false)
+    public function load(int $id)
     {
         $gen = $this->generator;
         return [
