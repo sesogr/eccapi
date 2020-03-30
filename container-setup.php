@@ -16,5 +16,7 @@ return [
         'customer' => FakeCustomerHandler::class,
         'evu' => FakeEvuHandler::class,
         'gridProvider' => FakeGridProviderHandler::class,
+        PARAM_CHILDREN => FakeCustomerHandler::class,
+        PARAM_CONSUMERS => FakeCustomerHandler::class,
     ],
 ];

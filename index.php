@@ -9,6 +9,8 @@ const FILE_SETUP = __DIR__ . '/container-setup.php';
 const PARAM_ID = 'id';
 const PARAM_SEARCH = 'searchQuery';
 const PARAM_TYPE = 'type';
+const PARAM_CHILDREN = 'customersByParentID';
+const PARAM_CONSUMERS = 'consumersByCustomerID';
 const SLOT_HANDLERS = 'typeHandlers';
 require_once __DIR__ . '/vendor/autoload.php';
 try {
