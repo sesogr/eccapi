@@ -7,7 +7,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
     {
         return array_map(
             function () use ($search) {
-                return $this->load($this->generator->randomNumber(8));
+                return $this->load($this->generator->uuid);
             },
             range(0, $this->generator->biasedNumberBetween(2, 20))
         );
@@ -37,17 +37,17 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
         );
     }
 
-    public function load(int $id)
+    public function load(string $id)
     {
         $gen = $this->generator;
         return [
             'id' => $id,
             'kundeName' => $gen->company . ($gen->boolean ? ', ' . $gen->city : ''),
             'kundeNummer' => $gen->ean13,
-            'verantwortlicherID' => $gen->randomNumber(8),
+            'verantwortlicherID' => $gen->uuid,
             'rechnungsanschriftVerwenden' => $gen->boolean,
             'createdOn' => $this->generator->date(DATE_ATOM),
-            'kundeID' => $gen->optional()->randomNumber(8),
+            'kundeID' => $gen->optional()->uuid,
             'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list(null)) ?: [],
         ];
     }

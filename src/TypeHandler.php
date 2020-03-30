@@ -26,9 +26,9 @@ interface TypeHandler
     /**
      * Loads the internal representation for the item identified by the id.
      *
-     * @param int $id
+     * @param string $id
      *
      * @return mixed
      */
-    public function load(int $id);
+    public function load(string $id);
 }

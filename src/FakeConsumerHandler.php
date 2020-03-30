@@ -7,7 +7,7 @@ class FakeConsumerHandler extends FakeDataHandler
     {
         return array_map(
             function () use ($search) {
-                $item = $this->load($this->generator->randomNumber(8));
+                $item = $this->load($this->generator->uuid);
                 $item['bemerkungen'] = $search
                     ? implode(
                         ' ',
@@ -20,7 +20,7 @@ class FakeConsumerHandler extends FakeDataHandler
         );
     }
 
-    public function load(int $id)
+    public function load(string $id)
     {
         $gen = $this->generator;
         return [
@@ -32,7 +32,7 @@ class FakeConsumerHandler extends FakeDataHandler
             'slpBerechnung' => $gen->boolean,
             'bemerkungen' => $this->generator->words($this->generator->numberBetween(3, 10), true),
             'kostenstelle' => $this->generator->optional()->word,
-            'kundeID' => $gen->randomNumber(8),
+            'kundeID' => $gen->uuid,
             'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list(null)) ?: [],
         ];
     }

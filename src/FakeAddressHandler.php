@@ -7,7 +7,7 @@ class FakeAddressHandler extends FakeDataHandler
     {
         return array_map(
             function () use ($search) {
-                $item = $this->load($this->generator->randomNumber(8));
+                $item = $this->load($this->generator->uuid);
                 $item['line1'] = $search
                     ? implode(
                         ' ',
@@ -20,7 +20,7 @@ class FakeAddressHandler extends FakeDataHandler
         );
     }
 
-    public function load(int $id)
+    public function load(string $id)
     {
         return [
             'id' => $id,
