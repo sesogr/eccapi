@@ -26,10 +26,8 @@ class FakeGridProviderHandler extends FakeDataHandler
             'id' => $id,
             'netzbetreiberName' => $this->generator->company . ($this->generator->boolean ? ', ' . $this->generator->city : ''),
             'netzbetreiberCode' => $this->generator->ean13,
-            'aktiv' => $this->generator->boolean,
             'kommentar' => $this->generator->words($this->generator->numberBetween(3, 10), true),
             'lastChanged' => $this->generator->date(DATE_ATOM),
-            'bundeslandId' => $this->generator->randomNumber(2),
         ];
     }
 }

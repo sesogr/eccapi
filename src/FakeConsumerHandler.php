@@ -28,34 +28,12 @@ class FakeConsumerHandler extends FakeDataHandler
             'zaehlernummer' => $gen->ean13,
             'melo' => $gen->ean13,
             'malo' => $gen->optional(8)->ean13,
-            'editable' => $gen->boolean,
-            'aktiv' => $gen->boolean,
             'verbrauchertyp' => $gen->boolean(80) ? 'Strom' : 'Gas',
             'slpBerechnung' => $gen->boolean,
             'bemerkungen' => $this->generator->words($this->generator->numberBetween(3, 10), true),
             'kostenstelle' => $this->generator->optional()->word,
-            'isEditable' => $gen->boolean,
-            'lieferspannungID' => $gen->randomNumber(8),
-            'messspannungID' => $gen->randomNumber(8),
-            'konzessionsabgabeHTID' => $gen->randomNumber(8),
-            'konzessionsabgabeNTID' => $gen->randomNumber(8),
-            'slpTypId' => $this->generator->randomElement(['SLP_ET', 'SLP_ZT', 'SLP_MT', 'SLP_MAX', 'SLP_WP', 'SLP_SH']),
-            'evuID' => $gen->randomNumber(8),
-            'lieferantID' => $gen->randomNumber(8),
-            'netzbetreiberID' => $gen->randomNumber(8),
-            'kundeId' => $gen->randomNumber(8),
-            'address' => array_map(
-                function () use ($gen) {
-                    return [
-                        'id' => $gen->randomNumber(8),
-                        'street' => $gen->optional(.8)->streetAddress,
-                        'zipCode' => $gen->optional(.8)->postcode,
-                        'city' => $gen->optional(.8)->city,
-                        'country' => $gen->optional()->country,
-                    ];
-                },
-                range(0, $gen->biasedNumberBetween(0, 3))
-            ),
+            'kundeID' => $gen->randomNumber(8),
+            'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list($gen->word)) ?: [],
         ];
     }
 }

@@ -26,7 +26,6 @@ class FakeEvuHandler extends FakeDataHandler
             'id' => $id,
             'evuName' => $this->generator->company . ($this->generator->boolean ? ', ' . $this->generator->city : ''),
             'evuNummer' => $this->generator->ean13,
-            'aktiv' => $this->generator->boolean,
             'kommentar' => $this->generator->words($this->generator->numberBetween(3, 10), true),
             'standardKuendigungsfrist' => $this->generator->randomElement(['none', 'unknown', 'd1', 'w1', 'w2', 'w4', 'w6', 'm1', 'm3', 'm6']),
         ];

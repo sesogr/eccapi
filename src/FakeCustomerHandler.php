@@ -20,26 +20,11 @@ class FakeCustomerHandler extends FakeDataHandler
             'id' => $id,
             'kundeName' => $gen->company . ($gen->boolean ? ', ' . $gen->city : ''),
             'kundeNummer' => $gen->ean13,
-            'aktiv' => $gen->boolean,
             'verantwortlicherID' => $gen->randomNumber(8),
             'rechnungsanschriftVerwenden' => $gen->boolean,
             'createdOn' => $this->generator->date(DATE_ATOM),
             'kundeID' => $gen->optional()->randomNumber(8),
-            'parentAccount' => $recursive ? null : $gen->optional()->passthrough($this->load($gen->randomNumber(8), true)),
-            'childAccounts' => $gen->optional(.2)->passthrough($recursive ? null : $this->list($gen->word, true)) ?: [],
-            'consumer' => $gen->optional()->passthrough((new FakeConsumerHandler($this->generator))->list($gen->word)) ?: [],
-            'addresses' => array_map(
-                function () use ($gen) {
-                    return [
-                        'id' => $gen->randomNumber(8),
-                        'street' => $gen->optional(.8)->streetAddress,
-                        'zipCode' => $gen->optional(.8)->postcode,
-                        'city' => $gen->optional(.8)->city,
-                        'country' => $gen->optional()->country,
-                    ];
-                },
-                range(0, $gen->biasedNumberBetween(0, 3))
-            ),
+            'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list($gen->word)) ?: [],
         ];
     }
 }

@@ -16,7 +16,7 @@ class FakeAddressHandler extends FakeDataHandler
                     : $item['line1'];
                 return $item;
             },
-            range(0, $this->generator->biasedNumberBetween(2, 20))
+            range(0, $this->generator->biasedNumberBetween(0, 3))
         );
     }
 
