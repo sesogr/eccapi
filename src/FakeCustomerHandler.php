@@ -13,7 +13,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
         );
     }
 
-    public function listChildren(string $parentId): array
+    public function listChildren(string $parentId, bool $isExtended = false): array
     {
         return array_map(
             function ($item) use ($parentId) {
@@ -25,7 +25,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
         );
     }
 
-    public function listConsumers(string $ownerId): array
+    public function listConsumers(string $ownerId, bool $isExtended = false): array
     {
         return array_map(
             function ($item) use ($ownerId) {
