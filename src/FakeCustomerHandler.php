@@ -3,7 +3,7 @@ namespace SuiteCrmCalcApi;
 
 class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
 {
-    public function list(?string $search): array
+    public function list(?string $search, bool $isExtended = false): array
     {
         return array_map(
             function () use ($search) {
@@ -37,7 +37,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
         );
     }
 
-    public function load(string $id)
+    public function load(string $id, bool $isExtended = false)
     {
         $gen = $this->generator;
         return [
