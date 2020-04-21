@@ -6,8 +6,8 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
     public function list(?string $search, bool $isExtended = false): array
     {
         return array_map(
-            function () use ($search) {
-                return $this->load($this->generator->uuid);
+            function () use ($search, $isExtended) {
+                return $this->load($this->generator->uuid, $isExtended);
             },
             range(0, $this->generator->biasedNumberBetween(2, 20))
         );
@@ -20,7 +20,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
                 return ['kundeID' => $parentId] + $item;
             },
             $this->generator->optional()->passthrough(
-                (new FakeCustomerHandler($this->generator))->list($this->generator->word)
+                (new FakeCustomerHandler($this->generator))->list($this->generator->word, $isExtended)
             ) ?: []
         );
     }
@@ -32,7 +32,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
                 return ['kundeID' => $ownerId] + $item;
             },
             $this->generator->optional()->passthrough(
-                (new FakeConsumerHandler($this->generator))->list($this->generator->word)
+                (new FakeConsumerHandler($this->generator))->list($this->generator->word, $isExtended)
             ) ?: []
         );
     }
@@ -40,6 +40,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
     public function load(string $id, bool $isExtended = false)
     {
         $gen = $this->generator;
+        $consumers = $isExtended ? ['consumers' => $this->listConsumers($id)] : [];
         return [
             'id' => $id,
             'kundeName' => $gen->company . ($gen->boolean ? ', ' . $gen->city : ''),
@@ -48,7 +49,8 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
             'rechnungsanschriftVerwenden' => $gen->boolean,
             'createdOn' => $this->generator->date(DATE_ATOM),
             'kundeID' => $gen->optional()->uuid,
+            'consumerCount' => $isExtended ? count($consumers) : $gen->biasedNumberBetween(0, 100),
             'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list(null)) ?: [],
-        ];
+        ] + $consumers;
     }
 }

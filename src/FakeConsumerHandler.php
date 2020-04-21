@@ -6,8 +6,8 @@ class FakeConsumerHandler extends FakeDataHandler
     public function list(?string $search, bool $isExtended = false): array
     {
         return array_map(
-            function () use ($search) {
-                $item = $this->load($this->generator->uuid);
+            function () use ($search, $isExtended) {
+                $item = $this->load($this->generator->uuid, $isExtended);
                 $item['bemerkungen'] = $search
                     ? implode(
                         ' ',
@@ -23,6 +23,7 @@ class FakeConsumerHandler extends FakeDataHandler
     public function load(string $id, bool $isExtended = false)
     {
         $gen = $this->generator;
+        $customerId = $gen->uuid;
         return [
             'id' => $id,
             'zaehlernummer' => $gen->ean13,
@@ -32,8 +33,8 @@ class FakeConsumerHandler extends FakeDataHandler
             'slpBerechnung' => $gen->boolean,
             'bemerkungen' => $this->generator->words($this->generator->numberBetween(3, 10), true),
             'kostenstelle' => $this->generator->optional()->word,
-            'kundeID' => $gen->uuid,
+            'kundeID' => $customerId,
             'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list(null)) ?: [],
-        ];
+        ] + ($isExtended ? ['customer' => (new FakeCustomerHandler($this->generator))->load($customerId)] : []);
     }
 }
