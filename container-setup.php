@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 use Faker\Factory;
 use Faker\Generator;
+use SuiteCrmCalcApi\FakeBiddingHandler;
 use SuiteCrmCalcApi\FakeConsumerHandler;
 use SuiteCrmCalcApi\FakeCustomerHandler;
 use SuiteCrmCalcApi\FakeEvuHandler;
@@ -12,6 +13,7 @@ return [
         return Factory::create('de_DE');
     }),
     'typeHandlers' => [
+        'bidding' => FakeBiddingHandler::class,
         'consumer' => FakeConsumerHandler::class,
         'customer' => FakeCustomerHandler::class,
         'evu' => FakeEvuHandler::class,
