@@ -11,6 +11,7 @@ class FakeConsumerHandler extends FakeDataHandler
                 $item = $this->load($this->generator->uuid);
                 if ($isExtended) {
                     $item['customer'] = $this->generator->randomElement($customers);
+                    $item['kundeID'] = $item['customer']['id'];
                 }
                 $item['bemerkungen'] = $search
                     ? implode(

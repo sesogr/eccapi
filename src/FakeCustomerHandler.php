@@ -48,7 +48,7 @@ class FakeCustomerHandler extends FakeDataHandler implements CustomerHandler
             'verantwortlicherID' => $gen->uuid,
             'rechnungsanschriftVerwenden' => $gen->boolean,
             'createdOn' => $this->generator->date(DATE_ATOM),
-            'kundeID' => $gen->optional()->uuid,
+            'kundeID' => $id,
             'consumerCount' => $isExtended ? count($consumers) : $gen->biasedNumberBetween(0, 100),
             'addresses' => $gen->optional()->passthrough((new FakeAddressHandler($this->generator))->list(null)) ?: [],
         ] + $consumers;
