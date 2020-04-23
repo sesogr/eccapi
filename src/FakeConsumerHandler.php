@@ -5,9 +5,13 @@ class FakeConsumerHandler extends FakeDataHandler
 {
     public function list(?string $search, bool $isExtended = false): array
     {
+        $customers = $isExtended ? (new FakeCustomerHandler($this->generator))->list($search) : [];
         return array_map(
-            function () use ($search, $isExtended) {
-                $item = $this->load($this->generator->uuid, $isExtended);
+            function () use ($search, $isExtended, $customers) {
+                $item = $this->load($this->generator->uuid);
+                if ($isExtended) {
+                    $item['customer'] = $this->generator->randomElement($customers);
+                }
                 $item['bemerkungen'] = $search
                     ? implode(
                         ' ',
@@ -16,7 +20,7 @@ class FakeConsumerHandler extends FakeDataHandler
                     : $item['bemerkungen'];
                 return $item;
             },
-            range(0, $this->generator->biasedNumberBetween(2, 20))
+            range(0, $this->generator->biasedNumberBetween(5, 100))
         );
     }
 
